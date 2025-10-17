@@ -7,17 +7,24 @@
 #include <QObject>
 #include <QFileInfo>
 #include <qqmlregistration.h>
+#include <QUrl>
 
 // Helper class to retrieve the filename from the given path using QFileInfo
-class FileNameProvider: public QObject
+class FileNameProvider : public QObject
 {
-    Q_OBJECT
-    QML_ELEMENT
-    QML_SINGLETON
+	Q_OBJECT
+	QML_ELEMENT
+	QML_SINGLETON
 
 public:
-    explicit FileNameProvider(QObject* parent = nullptr): QObject(parent) {}
-    Q_INVOKABLE static QString getFileName(const QString &p) { return QFileInfo(p).fileName(); }
+	explicit FileNameProvider(QObject* parent = nullptr) : QObject(parent)
+	{
+	}
+
+	Q_INVOKABLE static QString getFileName(const QUrl& url)
+	{
+		return QFileInfo(url.toLocalFile()).fileName();
+	}
 };
 
 #endif // FILENAMEPROVIDER_H

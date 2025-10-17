@@ -17,7 +17,7 @@ ApplicationWindow {
     minimumWidth: 640
     visible: true
     color: Config.mainColor
-    title: qsTr("Multimedia Player")
+    title: qsTr("Multimedia Player Team 1111")
     required property url source
     required property list<string> nameFilters
     required property int selectedNameFilter
@@ -28,25 +28,25 @@ ApplicationWindow {
     property alias tracksInfo: settingsInfo.tracksInfo
 
     function playMedia() {
-        mediaPlayer.source = playlistInfo.getSource()
-        mediaPlayer.play()
+        mediaPlayer.source = playlistInfo.getSource();
+        mediaPlayer.play();
     }
 
     function closeOverlays() {
-        settingsInfo.visible = false
-        playlistInfo.visible = false
+        settingsInfo.visible = false;
+        playlistInfo.visible = false;
     }
 
     function showOverlay(overlay) {
-        closeOverlays()
-        overlay.visible = true
+        closeOverlays();
+        overlay.visible = true;
     }
 
     function openFile(path) {
-        ++currentFile
-        playlistInfo.addFile(currentFile, path)
-        mediaPlayer.source = path
-        mediaPlayer.play()
+        ++currentFile;
+        playlistInfo.addFile(currentFile, path);
+        mediaPlayer.source = path;
+        mediaPlayer.play();
     }
 
     MouseArea {
@@ -56,12 +56,12 @@ ApplicationWindow {
         onPositionChanged: {
             if (!seeker.opacity) {
                 if (videoOutput.fullScreen) {
-                    showControls.start()
+                    showControls.start();
                 } else {
-                    seeker.showSeeker.start()
+                    seeker.showSeeker.start();
                 }
             } else {
-                timer.restart()
+                timer.restart();
             }
         }
         onClicked: root.closeOverlays()
@@ -73,12 +73,12 @@ ApplicationWindow {
         onTriggered: {
             if (!seeker.isMediaSliderPressed) {
                 if (videoOutput.fullScreen) {
-                    hideControls.start()
+                    hideControls.start();
                 } else {
-                    seeker.hideSeeker.start()
+                    seeker.hideSeeker.start();
                 }
             } else {
-                timer.restart()
+                timer.restart();
             }
         }
     }
@@ -107,10 +107,10 @@ ApplicationWindow {
 
         visible: !videoOutput.fullScreen
 
-        onFileOpened: (path) => root.openFile(path)
+        onFileOpened: path => root.openFile(path)
 
-        nameFilters : root.nameFilters
-        selectedNameFilter : root.selectedNameFilter
+        nameFilters: root.nameFilters
+        selectedNameFilter: root.selectedNameFilter
     }
 
     TouchMenu {
@@ -119,20 +119,20 @@ ApplicationWindow {
         y: parent.height - height - 32
         width: root.width - 64
         openFileMenuItem.onClicked: {
-            menuPopup.close()
-            menuBar.openFileMenu.open()
+            menuPopup.close();
+            menuBar.openFileMenu.open();
         }
 
         openUrlMenuItem.onClicked: {
-            menuPopup.close()
-            menuBar.openUrlPopup.open()
+            menuPopup.close();
+            menuBar.openUrlPopup.open();
         }
     }
 
     MediaDevices {
         id: mediaDevices
         onAudioOutputsChanged: {
-            mediaPlayer.audioOutput.device = defaultAudioOutput
+            mediaPlayer.audioOutput.device = defaultAudioOutput;
         }
     }
 
@@ -148,33 +148,32 @@ ApplicationWindow {
         source: new URL("https://download.qt.io/learning/videos/media-player-example/Qt_LogoMergeEffect.mp4")
 
         function updateMetadata() {
-            root.metadataInfo.clear()
-            root.metadataInfo.read(mediaPlayer.metaData)
+            root.metadataInfo.clear();
+            root.metadataInfo.read(mediaPlayer.metaData);
         }
 
         onMetaDataChanged: updateMetadata()
         onActiveTracksChanged: updateMetadata()
         onErrorOccurred: {
-            errorPopup.errorMsg = mediaPlayer.errorString
-            errorPopup.open()
+            errorPopup.errorMsg = mediaPlayer.errorString;
+            errorPopup.open();
         }
         onTracksChanged: {
-            settingsInfo.tracksInfo.selectedAudioTrack = mediaPlayer.activeAudioTrack
-            settingsInfo.tracksInfo.selectedVideoTrack = mediaPlayer.activeVideoTrack
-            settingsInfo.tracksInfo.selectedSubtitleTrack = mediaPlayer.activeSubtitleTrack
-            updateMetadata()
+            settingsInfo.tracksInfo.selectedAudioTrack = mediaPlayer.activeAudioTrack;
+            settingsInfo.tracksInfo.selectedVideoTrack = mediaPlayer.activeVideoTrack;
+            settingsInfo.tracksInfo.selectedSubtitleTrack = mediaPlayer.activeSubtitleTrack;
+            updateMetadata();
         }
 
         onMediaStatusChanged: {
-            if ((MediaPlayer.EndOfMedia === mediaStatus && mediaPlayer.loops !== MediaPlayer.Infinite) &&
-                    ((root.currentFile < playlistInfo.mediaCount - 1) || playlistInfo.isShuffled)) {
+            if ((MediaPlayer.EndOfMedia === mediaStatus && mediaPlayer.loops !== MediaPlayer.Infinite) && ((root.currentFile < playlistInfo.mediaCount - 1) || playlistInfo.isShuffled)) {
                 if (!playlistInfo.isShuffled) {
-                    ++root.currentFile
+                    ++root.currentFile;
                 }
-                root.playMedia()
+                root.playMedia();
             } else if (MediaPlayer.EndOfMedia === mediaStatus && root.playlistLooped && playlistInfo.mediaCount) {
-                root.currentFile = 0
-                root.playMedia()
+                root.currentFile = 0;
+                root.playMedia();
             }
         }
     }
@@ -195,14 +194,14 @@ ApplicationWindow {
         TapHandler {
             onDoubleTapped: {
                 if (parent.fullScreen) {
-                    root.showNormal()
+                    root.showNormal();
                 } else {
-                    root.showFullScreen()
+                    root.showFullScreen();
                 }
-                parent.fullScreen = !parent.fullScreen
+                parent.fullScreen = !parent.fullScreen;
             }
             onTapped: {
-                root.closeOverlays()
+                root.closeOverlays();
             }
         }
     }
@@ -241,8 +240,8 @@ ApplicationWindow {
 
         fullScreenButton.onClicked: {
             if (mediaPlayer.hasVideo) {
-                videoOutput.fullScreen ?  root.showNormal() : root.showFullScreen()
-                videoOutput.fullScreen = !videoOutput.fullScreen
+                videoOutput.fullScreen ? root.showNormal() : root.showFullScreen();
+                videoOutput.fullScreen = !videoOutput.fullScreen;
             }
         }
 
@@ -261,31 +260,31 @@ ApplicationWindow {
 
         onPlayNextFile: {
             if (playlistInfo.mediaCount) {
-                if (!playlistInfo.isShuffled){
-                    ++root.currentFile
+                if (!playlistInfo.isShuffled) {
+                    ++root.currentFile;
                     if (root.currentFile > playlistInfo.mediaCount - 1 && root.playlistLooped) {
-                        root.currentFile = 0
+                        root.currentFile = 0;
                     } else if (root.currentFile > playlistInfo.mediaCount - 1 && !root.playlistLooped) {
-                        --root.currentFile
-                        return
+                        --root.currentFile;
+                        return;
                     }
                 }
-                root.playMedia()
+                root.playMedia();
             }
         }
 
         onPlayPreviousFile: {
             if (playlistInfo.mediaCount) {
-                if (!playlistInfo.isShuffled){
-                    --root.currentFile
+                if (!playlistInfo.isShuffled) {
+                    --root.currentFile;
                     if (root.currentFile < 0 && isPlaylistLooped) {
-                        root.currentFile = playlistInfo.mediaCount - 1
+                        root.currentFile = playlistInfo.mediaCount - 1;
                     } else if (root.currentFile < 0 && !root.playlistLooped) {
-                        ++root.currentFile
-                        return
+                        ++root.currentFile;
+                        return;
                     }
                 }
-                root.playMedia()
+                root.playMedia();
             }
         }
 
@@ -314,18 +313,18 @@ ApplicationWindow {
 
         onPlaylistUpdated: {
             if (mediaPlayer.playbackState == MediaPlayer.StoppedState && root.currentFile < playlistInfo.mediaCount - 1) {
-                ++root.currentFile
-                root.playMedia()
+                ++root.currentFile;
+                root.playMedia();
             }
         }
 
         onCurrentFileRemoved: {
-            mediaPlayer.stop()
+            mediaPlayer.stop();
             if (root.currentFile < playlistInfo.mediaCount - 1) {
-                root.playMedia()
+                root.playMedia();
             } else if (playlistInfo.mediaCount) {
-                --root.currentFile
-                root.playMedia()
+                --root.currentFile;
+                root.playMedia();
             }
         }
     }
@@ -393,8 +392,8 @@ ApplicationWindow {
 
     Component.onCompleted: {
         if (source.toString().length > 0)
-            openFile(source)
+            openFile(source);
         else
-            mediaPlayer.play()
+            mediaPlayer.play();
     }
 }
