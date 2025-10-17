@@ -4,6 +4,9 @@ project(MediaPlayer LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+# 添加QT_QML_GENERATE_QMLLS_INI选项以支持QML语言服务器
+set(QT_QML_GENERATE_QMLLS_INI ON)
+
 find_package(Qt6 6.8 REQUIRED COMPONENTS Core Quick QuickControls2 Svg Multimedia)
 
 qt_standard_project_setup(REQUIRES 6.8)
