@@ -4,3 +4,4 @@ build
 .qmlls.ini
 .idea
 .cache
+__cmake*

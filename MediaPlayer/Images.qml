@@ -7,6 +7,6 @@ import Config
 
 QtObject {
     function iconSource(fileName, addSuffix = true) {
-        return Qt.resolvedUrl("icons/" + Config.iconName(fileName, addSuffix))
+        return Qt.resolvedUrl("icons/" + Config.iconName(fileName,addSuffix))
     }
 }

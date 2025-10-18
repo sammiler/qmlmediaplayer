@@ -1,0 +1,38 @@
+[
+  {
+    "label": "Configure (Windows Debug)",
+    "command": ".zed/build-wrapper.bat",
+    "args": ["--preset", "windows-debug"],
+    "tags": ["configure"]
+  },
+  {
+    "label": "Configure (Windows Release)",
+    "command": ".zed/build-wrapper.bat",
+    "args": ["--preset", "windows-release"],
+    "tags": ["configure"]
+  },
+  {
+    "label": "Build (Windows Debug)",
+    "command": ".zed/build-wrapper.bat",
+    "args": ["--build", "--preset", "build-windows-debug"],
+    "tags": ["build"]
+  },
+  {
+    "label": "Build (Windows Release)",
+    "command": ".zed/build-wrapper.bat",
+    "args": ["--build", "--preset", "build-windows-release"],
+    "tags": ["build"]
+  },
+  {
+    "label": "Run (Debug)",
+    "command": "build/bin/MediaPlayerApp.exe",
+    "args": [],
+    "tags": ["run"]
+  },
+  {
+    "label": "Clean Build",
+    "command": ".zed/build-wrapper.bat",
+    "args": ["--build", "build", "--target", "clean"],
+    "tags": ["clean"]
+  }
+]

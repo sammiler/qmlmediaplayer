@@ -1,0 +1,10 @@
+[
+  {
+    "adapter": "CodeLLDB",
+    "label": "Debug Application",
+    "request": "launch",
+    "program": "C:/MyFile/dev/qmlmediaplayer/build/bin/MediaPlayerApp.exe",
+    "args": [],
+    "cwd": "C:/MyFile/dev/qmlmediaplayer"
+  }
+]
