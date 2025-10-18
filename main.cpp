@@ -11,70 +11,65 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-struct NameFilters
-{
-    QStringList filters;
-    int preferred = 0;
+struct NameFilters {
+  QStringList filters;
+  int preferred = 0;
 };
 
-static NameFilters nameFilters()
-{
-    QStringList result;
-    QString preferredFilter;
-    const auto formats = QMediaFormat().supportedFileFormats(QMediaFormat::Decode);
-    for (qsizetype m = 0, size = formats.size(); m < size; ++m) {
-        const auto format = formats.at(m);
-        QMediaFormat mediaFormat(format);
-        const QMimeType mimeType = mediaFormat.mimeType();
-        if (mimeType.isValid()) {
-            QString filter = QMediaFormat::fileFormatDescription(format) + " ("_L1;
-            const auto suffixes = mimeType.suffixes();
-            for (qsizetype i = 0, size = suffixes.size(); i < size; ++i) {
-                if (i)
-                    filter += u' ';
-                filter += "*."_L1 + suffixes.at(i);
-            }
-            filter += u')';
-            result.append(filter);
-            if (mimeType.name() == "video/mp4"_L1)
-                preferredFilter = filter;
-        }
+static NameFilters nameFilters() {
+  QStringList result;
+  QString preferredFilter;
+  const auto formats = QMediaFormat().supportedFileFormats(QMediaFormat::Decode);
+  for (qsizetype m = 0, size = formats.size(); m < size; ++m) {
+    const auto format = formats.at(m);
+    QMediaFormat mediaFormat(format);
+    const QMimeType mimeType = mediaFormat.mimeType();
+    if (mimeType.isValid()) {
+      QString filter = QMediaFormat::fileFormatDescription(format) + " ("_L1;
+      const auto suffixes = mimeType.suffixes();
+      for (qsizetype i = 0, size = suffixes.size(); i < size; ++i) {
+        if (i) filter += u' ';
+        filter += "*."_L1 + suffixes.at(i);
+      }
+      filter += u')';
+      result.append(filter);
+      if (mimeType.name() == "video/mp4"_L1) preferredFilter = filter;
     }
-    std::sort(result.begin(), result.end());
-    const int preferred = preferredFilter.isEmpty() ? 0 : int(result.indexOf(preferredFilter));
-    return { result, preferred };
+  }
+  std::sort(result.begin(), result.end());
+  const int preferred = preferredFilter.isEmpty() ? 0 : int(result.indexOf(preferredFilter));
+  return {result, preferred};
 }
 
-int main(int argc, char *argv[])
-{
-    QGuiApplication app(argc, argv);
+int main(int argc, char* argv[]) {
+  QGuiApplication app(argc, argv);
 
-    QCoreApplication::setApplicationName("MediaPlayer Example");
-    QCoreApplication::setOrganizationName("QtProject");
-    QCoreApplication::setApplicationVersion(QT_VERSION_STR);
-    QCommandLineParser parser;
-    parser.setApplicationDescription(QCoreApplication::translate("main", "Qt Quick MediaPlayer Example"));
-    parser.addHelpOption();
-    parser.addVersionOption();
-    parser.addPositionalArgument("url", QCoreApplication::translate("main", "The URL(s) to open."));
-    parser.process(app);
+  QCoreApplication::setApplicationName("MediaPlayer Example");
+  QCoreApplication::setOrganizationName("QtProject");
+  QCoreApplication::setApplicationVersion(QT_VERSION_STR);
+  QCommandLineParser parser;
+  parser.setApplicationDescription(QCoreApplication::translate("main", "Qt Quick MediaPlayer Example"));
+  parser.addHelpOption();
+  parser.addVersionOption();
+  parser.addPositionalArgument("url", QCoreApplication::translate("main", "The URL(s) to open."));
+  parser.process(app);
 
-    QQmlApplicationEngine engine;
-    QObject::connect(&engine, &QQmlApplicationEngine::quit, &app, &QGuiApplication::quit);
+  QQmlApplicationEngine engine;
+  QObject::connect(&engine, &QQmlApplicationEngine::quit, &app, &QGuiApplication::quit);
 
-    QUrl source;
-    if (!parser.positionalArguments().isEmpty())
-        source = QUrl::fromUserInput(parser.positionalArguments().at(0), QDir::currentPath());
+  QUrl source;
+  if (!parser.positionalArguments().isEmpty()) source = QUrl::fromUserInput(
+                                                   parser.positionalArguments().at(0), QDir::currentPath());
 
-    const auto filters = nameFilters();
-    QVariantMap initialProperties{
-        {"source", source},
-        {"nameFilters", filters.filters},
-        {"selectedNameFilter", filters.preferred}
-    };
+  const auto filters = nameFilters();
+  QVariantMap initialProperties{
+      {"source", source},
+      {"nameFilters", filters.filters},
+      {"selectedNameFilter", filters.preferred}
+  };
 
-    engine.setInitialProperties(initialProperties);
-    engine.loadFromModule("MediaPlayer", "Main");
+  engine.setInitialProperties(initialProperties);
+  engine.loadFromModule("MediaPlayer", "Main");
 
-    return app.exec();
+  return app.exec();
 }
