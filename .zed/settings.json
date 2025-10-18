@@ -1,0 +1,18 @@
+{
+  "lsp": {
+    "qml": {
+      "binary": {
+        "arguments": [
+          "-I",
+          "C:/Qt/6.10.0/msvc2022_64/qml",
+          "-I",
+          "build/Config",
+          "-I",
+          "build/MediaControls",
+          "-I",
+          "build/MediaPlayer"
+        ]
+      }
+    }
+  }
+}

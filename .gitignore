@@ -3,3 +3,4 @@
 build
 .qmlls.ini
 .idea
+.cache
