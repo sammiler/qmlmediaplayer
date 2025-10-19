@@ -71,5 +71,5 @@ int main(int argc, char* argv[]) {
   engine.setInitialProperties(initialProperties);
   engine.loadFromModule("MediaPlayer", "Main");
 
-  return app.exec();
+  return QGuiApplication::exec();
 }
